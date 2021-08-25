@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-section text-center"><h3>Wiadomości</h3></div>
+{% for conversation in conversations %}
+    {% if conversation.user_1 == current_user.id %}
+      <div class="media content-section">
+        <div class="article-metadata d-md-block">
+        <div class="">
+        <img class="rounded-circle author-img" src="{{ url_for('static', filename='profile_pics/' + conversation.get_image_file(conversation.user_2)) }}" alt="">
+        {{ conversation.get_username(conversation.user_2) }}
+        <small class="text-muted">{{ conversation.get_last_date(conversation.id).strftime('%Y-%m-%d %H:%M') }}</small>
+        {% if conversation.get_status() == False %}
+        <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_2)) }} "><button type="button" name="button" class="btn btn-success btn-sm mb-1 ml-3">Nowa!</button></a>
+        {% else %}
+        <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_2)) }} "><button type="button" name="button" class="btn btn-secondary btn-sm mb-1 ml-3">Otwórz</button></a>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+    {% else %}
+    <div class="media content-section">
+      <div class="article-metadata d-md-block">
+      <div class="">
+      <img class="rounded-circle author-img" src="{{ url_for('static', filename='profile_pics/' + conversation.get_image_file(conversation.user_1)) }}" alt="">
+      {{ conversation.get_username(conversation.user_1) }}
+      <small class="text-muted">{{ conversation.get_last_date(conversation.id).strftime('%Y-%m-%d %H:%M') }}</small>
+      {% if conversation.get_status() == False %}
+      <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_1)) }} "><button type="button" name="button" class="btn btn-success btn-sm mb-1 ml-3">Nowa!</button></a>
+      {% else %}
+      <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_1)) }} "><button type="button" name="button" class="btn btn-secondary btn-sm mb-1 ml-3">Otwórz</button></a>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}

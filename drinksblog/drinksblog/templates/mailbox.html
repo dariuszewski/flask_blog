@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <div class="media-body media content-section d-md-block">
+      <div class="article-metadata ">
+
+        <div class="row">
+
+          <div class="col-xs-1">
+            <img class="rounded-circle author-img" src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" alt="">
+          </div>
+
+          <div class="col-xs-4">
+          <div class="author  mt-3"><b><a class="mr-2" href="#">{{ current_user.username }}</a></b></div>
+          </div>
+
+          <div class="col-xs-4 ml-4">
+          <button type="button" class="btn btn-secondary btn-outline btn-sm mt-3" name="button">Otwórz</button>
+          </div>
+
+          <div class="col-xs-3">
+          <p style="color:#00FF00" class="mt-3 ml-4">Masz nową wiadomość!</p>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

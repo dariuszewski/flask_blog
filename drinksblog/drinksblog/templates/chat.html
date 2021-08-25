@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="content-section">
+<h3>Czat z {{ recipient }}</h3>
+</div>
+
+<div class="content-section">
+<form class="" action="" method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+      {{ form.content.label(class="form-control-label") }}
+      {% if form.content.errors %}
+          {{ form.content(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+              {% for error in form.content.errors %}
+                  <span>{{ error }}</span>
+              {% endfor %}
+          </div>
+      {% else %}
+          {{ form.content(class="form-control form-control-md") }}
+      {% endif %}
+      <br>
+      <div class="form-group text-center">
+          {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+  </div>
+</form>
+</div>
+{% for message in messages %}
+{% if current_user.id == message.sender_id %}
+<div style="text-align: right" class="content-section">{{ message.get_username(message.sender_id) }}{{ message }}</div>
+{% else %}
+<div class="content-section">{{ message.get_username(message.sender_id) }}{{ message }}</div>
+{% endif %}
+{% endfor %}
+{% endblock content %}
