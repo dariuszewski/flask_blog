@@ -67,7 +67,7 @@ class Conversation(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         user_1 = db.Column(db.Integer, db.ForeignKey('user.id'))
         user_2 = db.Column(db.Integer, db.ForeignKey('user.id'))
-        messages= db.relationship('Message', backref='mail', lazy=True)
+        messages = db.relationship('Message', backref='mail', lazy=True)
 
         def get_username(self, id):
             user = User.query.filter_by(id=id).first()
@@ -85,6 +85,12 @@ class Conversation(db.Model):
             status = Message.query.filter_by(is_read=True).all()
             return bool(status)
 
+        def get_last_msg(self, id):
+            msg = Message.query.filter_by(mail_id=self.id).order_by(Message.date_posted.desc()).first()
+            return msg
+
+        #<!--<small class="text-muted">{{ conversation.get_last_date(conversation.id).strftime('%Y-%m-%d %H:%M') }}</small>-->
+
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -99,5 +105,8 @@ class Message(db.Model):
         user = User.query.filter_by(id=id).first()
         return user.username
 
+    def short(self):
+        return 'Hello'
+
     def __repr__(self):
-        return ': {}'.format(self.content)
+        return f'{self.content}'

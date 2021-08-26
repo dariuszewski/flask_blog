@@ -5,36 +5,52 @@
 {% for conversation in conversations %}
     {% if conversation.user_1 == current_user.id %}
       <div class="media content-section">
-        <div class="article-metadata d-md-block">
-        <div class="">
-        <img class="rounded-circle author-img" src="{{ url_for('static', filename='profile_pics/' + conversation.get_image_file(conversation.user_2)) }}" alt="">
-        {{ conversation.get_username(conversation.user_2) }}
-        <small class="text-muted">{{ conversation.get_last_date(conversation.id).strftime('%Y-%m-%d %H:%M') }}</small>
-        {% if conversation.get_status() == False %}
-        <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_2)) }} "><button type="button" name="button" class="btn btn-success btn-sm mb-1 ml-3">Nowa!</button></a>
-        {% else %}
-        <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_2)) }} "><button type="button" name="button" class="btn btn-secondary btn-sm mb-1 ml-3">Otwórz</button></a>
-        {% endif %}
+
+        <div class="col-xs-4">
+        <img class="rounded-circle author-img center" src="{{ url_for('static', filename='profile_pics/' + conversation.get_image_file(conversation.user_2)) }}" alt="">
+        <br>
+        <div class="ml-2">
+          {{ conversation.get_username(conversation.user_2) }}
         </div>
-      </div>
+        </div>
+
+        <div class="col-xs-4 d-xs-block mt-3">
+          <div class="">
+            {% if conversation.get_status() == False %}
+            <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_2)) }} "><button type="button" name="button" class="btn btn-success btn-sm mb-1 ml-3">Nowa!</button></a>
+            {% else %}
+            <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_2)) }} "><button type="button" name="button" class="btn btn-secondary btn-sm mb-1 ml-3">Otwórz</button></a>
+            {% endif %}
+
+          </div>
+          <small>{{ conversation.get_last_msg(conversation.id) }}</small>
+        </div>
     </div>
 
 
     {% else %}
     <div class="media content-section">
-      <div class="article-metadata d-md-block">
-      <div class="">
-      <img class="rounded-circle author-img" src="{{ url_for('static', filename='profile_pics/' + conversation.get_image_file(conversation.user_1)) }}" alt="">
-      {{ conversation.get_username(conversation.user_1) }}
-      <small class="text-muted">{{ conversation.get_last_date(conversation.id).strftime('%Y-%m-%d %H:%M') }}</small>
-      {% if conversation.get_status() == False %}
-      <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_1)) }} "><button type="button" name="button" class="btn btn-success btn-sm mb-1 ml-3">Nowa!</button></a>
-      {% else %}
-      <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_1)) }} "><button type="button" name="button" class="btn btn-secondary btn-sm mb-1 ml-3">Otwórz</button></a>
-      {% endif %}
+
+      <div class="col-xs-4">
+      <img class="rounded-circle author-img center" src="{{ url_for('static', filename='profile_pics/' + conversation.get_image_file(conversation.user_2)) }}" alt="">
+      <br>
+      <div class="ml-2">
+        {{ conversation.get_username(conversation.user_1) }}
       </div>
-    </div>
+      </div>
+
+      <div class="col-xs-4 d-xs-block mt-3">
+        <div class="">
+          {% if conversation.get_status() == False %}
+          <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_1)) }} "><button type="button" name="button" class="btn btn-success btn-sm mb-1 ml-3">Nowa!</button></a>
+          {% else %}
+          <a href=" {{ url_for('conversations.chat', recipient=conversation.get_username(conversation.user_1)) }} "><button type="button" name="button" class="btn btn-secondary btn-sm mb-1 ml-3">Otwórz</button></a>
+          {% endif %}
+        </div>
+        <small>{{ conversation.get_last_msg(conversation.id) }}</small>
+      </div>
   </div>
     {% endif %}
+
 {% endfor %}
 {% endblock %}
